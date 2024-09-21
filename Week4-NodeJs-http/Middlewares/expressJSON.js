@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 // Use express.json() middleware to parse JSON bodies
-// app.use(express.json());
+app.use(express.json());
 
 // Define a POST route to handle JSON data
 app.post('/data', (req, res) => {
