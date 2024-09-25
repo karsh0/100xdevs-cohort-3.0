@@ -3,15 +3,14 @@ const app = express()
 const jwt = require('jsonwebtoken')
 const JWT_SECRET = 'random'
 
-app.get('/',function(req,res){
-    res.json({
-        message:'setup done'
-    })
-})
 
 app.use(express.json())
 
 let users = [];
+
+app.get('/',function(req,res){
+    res.sendFile(__dirname + "/public/index.html");
+})
 
 app.post('/signup',function(req,res){
     const username = req.body.username;
@@ -37,7 +36,7 @@ app.post('/signup',function(req,res){
         })
     }
     else{
-        res.status(401).json({
+        res.json({
             message:'User already exists'
         })
     }
@@ -90,10 +89,22 @@ function auth(req,res,next){
 
 app.get('/me',auth,function(req,res){
     const user = req.user;
+    let verifiedUsername = user.username;
 
-    res.json({
-        username:user.username
+    const foundUser = users.find((u)=>{
+        if(u.username == verifiedUsername){
+            return u;
+        }
+        else{
+            return false;
+        }
     })
+    if(foundUser){
+        res.json({
+            username:foundUser.username,
+            password:foundUser.password
+        })
+    }
 
 })
 
