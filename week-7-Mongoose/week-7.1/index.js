@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
 const JWT_SECRET = "SECRET";
 
-mongoose.connect("mongodb+srv://admin:sdWrBsXuYHdxK3sb@cluster0.plktz.mongodb.net/todo-harkirat222")
+mongoose.connect("")
 const app = express();
 app.use(express.json())
 
@@ -33,7 +33,7 @@ app.post('/login', async function (req,res){
     console.log(user);
 
     if(user){
-        const token = jwt.sign({id: user._id},JWT_SECRET);
+        const token = jwt.sign({id: user._id.toString()},JWT_SECRET);
         res.json({
             message:"logged in",
             token:token,
@@ -45,11 +45,50 @@ app.post('/login', async function (req,res){
         })
     }
 })
-app.post('/todo', function (req,res){
 
+function auth(req,res,next){
+    const token = req.headers.token;
+    const decodedData = jwt.verify(token,JWT_SECRET);
+    if(!decodedData){
+        res.json({ message: "incorrect token"})
+    }
+    try{
+        if(decodedData){
+            req.userId = decodedData.id;
+            next()
+        }
+    }
+    catch(e) {
+        console.log(e);
+    }
+}
+app.use(auth)
+
+app.post('/todo', async function (req,res){
+    const userId = req.userId;
+    const title = req.body.title;
+    const description = req.body.description;
+    const status = req.body.status;
+
+    await TodoModel.create({
+        title,
+        description,
+        status
+    })
+    res.json({
+        message:"todo created",
+        userId: userId
+    })
 })
-app.get('/todos', function (req,res){
+app.get('/todos', async function (req,res){
+    const userId = req.headers.userId;
 
+    const todos = await TodoModel.find({
+        userId
+    });
+    res.json({
+        todos
+    })
 })
 
 app.listen(3000);
