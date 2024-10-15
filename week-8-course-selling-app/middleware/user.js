@@ -4,7 +4,7 @@ const {JWT_SECRET} = require("../config")
 function userMiddleware (req,res,next){
     const token = req.headers.token;
 
-    const response = jwt.verify(token,JWT_SECRET);
+    const response = jwt.verify(token,process.env.JWT_SECRET);
     if(response){
         req.userId = response.id;
         next()

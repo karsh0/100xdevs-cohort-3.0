@@ -1,8 +1,9 @@
 const {Router} = require('express');
-const { userModel } = require('../db');
+const { userModel, purchaseModel, courseModel } = require('../db');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
-const {JWT_SECRET} = require("../config")
+const {JWT_SECRET} = require("../config");
+const { userMiddleware } = require('../middleware/user');
 const userRouter = Router()
 
 userRouter.post('/signup',async function(req,res){
@@ -37,7 +38,7 @@ userRouter.post('/signin',async function(req,res){
         
         const passwordMatch = await bcrypt.compare(password, admin.password);
         if(admin&&passwordMatch){
-            const token = jwt.sign({id:admin._id.toString()},JWT_SECRET);
+            const token = jwt.sign({id:admin._id.toString()},process.env.JWT_SECRET);
             res.json(
                 { message: "user signin success",token:token }
             );
@@ -53,10 +54,22 @@ userRouter.post('/signin',async function(req,res){
     }
 })
 
-userRouter.post('/purchases',function(req,res){
-    res.json({
-        message:"signup"
+userRouter.get('/purchases',userMiddleware ,async function(req,res){
+    const userId = req.userId;
+
+    const purchases = await purchaseModel.find({
+        userId
     })
+
+    const courseData = await courseModel.find({
+        _id: {$in: purchases.map(x => x.courseId)}
+    })
+
+    res.json({
+        purchases,courseData
+    })
+
+
 })
 
 module.exports = { userRouter }

@@ -24,7 +24,7 @@ const courseSchema = new Schema({
     creatorId:ObjectId,
 })
 const purchaseSchema = new Schema({
-    creatorId:ObjectId,
+    courseId:ObjectId,
     userId:ObjectId
 })
 
