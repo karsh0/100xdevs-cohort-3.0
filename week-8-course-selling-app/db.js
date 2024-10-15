@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
+mongoose.connect(process.env.MONGO_URL)
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
+
 const userSchema = new Schema({
-    email:String,
+    email:{type:String, unique:true},
     password:String,
     firstName:String,
     lastName:String
