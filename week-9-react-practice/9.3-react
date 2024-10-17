@@ -1,0 +1,107 @@
+import { useEffect, useState } from 'react'
+import './App.css'
+
+function App() {
+//   return(
+// {/* <div style={{backgroundColor:"#dfe6e9", width:"100%"}}>
+// <ToggleMessage/>
+// <PostComponent
+// name={"karan"}
+// subtitle={"20 followers"}
+// time={"2m ago"}
+// image={"https://storage.googleapis.com/fc-freepik-pro-rev1-eu-static/ai-styles-landings/anime/characters-and-scenes.jpg?h=1280"}
+// description={"Explore Sarcaeus's board Anime Profile Pictures, followed by 499 people on Pinterest."}
+// />
+// <PostComponent
+// name={"karan"}
+// subtitle={"Promoted"}
+// image={"https://storage.googleapis.com/fc-freepik-pro-rev1-eu-static/ai-styles-landings/anime/characters-and-scenes.jpg?h=1280"}
+// description={"Explore Sarcaeus's board Anime Profile Pictures, followed by 499 people on Pinterest."}
+// />
+// <ProfileCard/>
+// </div> */}
+// )
+
+const [posts, setPosts] = useState([]);
+
+const postComponents = posts.map(post => <PostComponent
+  name={post.name}
+  subtitle={post.subtitle}
+  time={post.title}
+  image={post.image}
+  description={post.description}
+/>)
+
+function addPost() {
+  setPosts([...posts, {
+    name: "harkirat",
+    subtitle: "10000 followers",
+    time: "2m ago",
+    image: "https://appx-wsb-gcp-mcdn.akamai.net.in/subject/2023-01-17-0.17044360120951185.jpg",
+    description: "What to know how to win big? Check out how these folks won $6000 in bounties."
+  }])
+}
+
+return (
+  <div style={{background: "#dfe6e9", height: "100vh", }}>
+    <button onClick={addPost}>Add post</button>
+    <div style={{display: "flex", justifyContent: "center" }}>
+      <div>
+        {postComponents}
+      </div>
+    </div>
+  </div>
+)
+}
+function PostComponent(props){
+  return <div style={{alignItems:'center',margin:"10px", gap:10, width:400, backgroundColor:"white", borderRadius:10, borderColor:"gray", borderWidth:1, padding:"20px"}}><div style={{display:"flex", gap:10}}>
+    <img src={props.image} alt="" style={{width:40, height:40, borderRadius:20}}/>
+  <div>
+    <b>100xdevs</b>
+    <div>{props.subtitle}</div>
+    {props.time ? <div style={{display:"flex", alignItems:"center", gap:5}}>
+      <div>{props.time}</div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShbBh7KERd30lp_EVOcJqyilVlDDPK2yoJlQ&s" alt="" style={{width:"12px", height:"12px"}}/>
+    </div>: null}
+  </div>
+ 
+  </div>
+   <div style={{padding:"10px"}}>{props.description}</div></div>
+}
+
+function ToggleMessage(){
+ const [toggle, settoggle] = useState(false);
+  function toggleButton(){
+    return settoggle(!toggle)
+  }
+  return(
+    <div>
+      <button onClick={toggleButton}>Toggle</button>
+      {toggle? <p>This can be toggled using the above button!</p>: null}
+    </div>
+  )
+}
+
+
+function ProfileCard(){
+  return(
+  <div style={{width:"400px", height:"400px", padding:"10px", display:"flex",backgroundColor:"white", flexDirection:"column", gap:1, borderColor:"black", borderWidth:1}}>
+    <div style={{width:"100%", height:"100%"}}>
+    <img src="https://storage.googleapis.com/fc-freepik-pro-rev1-eu-static/ai-styles-landings/anime/characters-and-scenes.jpg?h=1280" alt="" style={{width:"200px",alignSelf:"Center", height:"200px"}} />
+    <h4>Karan Sharma</h4>
+    <p>Learning math, writing code and travelling the world.</p>
+    <br></br>
+    <div style={{display:"flex", justifyContent:"space-between"}}>
+    <h4>Profile viewers</h4>
+    <h4>3</h4>
+    </div>
+    <div style={{display:"flex", justifyContent:"space-between"}}>
+    <h4>Profile viewers</h4>
+    <h4>3</h4>
+    </div>
+    </div>
+  </div>
+  )
+  
+}
+export default App
