@@ -4,16 +4,30 @@ import { createContext, useContext, useState } from 'react'
 //increase decrease count:1
 const CounterContext = createContext();
 
+function ContextProvider({children}){
+  const [count , setCount] = useState(0);
+
+  return <CounterContext.Provider value={{count,setCount}}>
+    {children}
+  </CounterContext.Provider>
+}
+
 function App() {
   const [count , setCount] = useState(0);
 
 
   return (
-    <CounterContext.Provider value={{count,setCount}}>
-    <Increase/>
+    // <CounterContext.Provider value={{count,setCount}}>
+    // <Increase/>
+    // <Decrease/>  
+    // <Counter/>
+    // </CounterContext.Provider>
+
+    <ContextProvider>
+         <Increase/>
     <Decrease/>  
     <Counter/>
-    </CounterContext.Provider>
+    </ContextProvider>
     
   )
 }
