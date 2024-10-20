@@ -1,47 +1,30 @@
+import { useRef, useState } from 'react'
 import './App.css'
-import {BrowserRouter, Routes, Route, Link, useNavigate} from "react-router-dom"
+import {BrowserRouter, Routes, Route, Link, useNavigate, Outlet} from "react-router-dom"
 
 
 function App() {
+ const [currentCount, setcurrentCount] = useState(1);
+  const [timer, setTimer] = useState(0);
+  function startClock(){
+    let value = setInterval(()=>{
+      setcurrentCount(currentCount => currentCount+1);
+    },1000)
+    setTimer(value);
+  }
 
+  function stopClock(){
+    clearInterval(timer)
+  }
   return (
-    <div>
-    <BrowserRouter>
-    <div style={{display:"flex", width:"300px", justifyContent:"space-between"}}>
-    <Link to="/">Home</Link>
-    <Link to="/neet/online-coaching-class-11">Class 11</Link>
-    <Link to="/neet/online-coaching-class-12">Class 12</Link>
-    <Link to="/neet/online-coaching-class-undergrad">Undergrads</Link>
-    </div>
-
-    <Routes>
-      <Route path="/neet/online-coaching-class-11" element={<Class11Program/>}></Route>
-      <Route path="/neet/online-coaching-class-12" element={<Class12Program/>}></Route>
-      <Route path="/neet/online-coaching-class-undergrad" element={<UndergradProgram/>}></Route>
-      <Route path="/" element={<Landing/>}></Route>
-    </Routes>
-    
-    </BrowserRouter>
-     
-    </div>
+    <>
+ {currentCount}
+ <br/>
+ <button onClick={startClock}>Start</button>
+ <button onClick={stopClock}>Stop</button>
+    </>
   )
 }
 
-function Class11Program(){
-  return <div>Coachinng for class 11</div>
-}
-
-function Class12Program(){
-  return <div>Coachinng for class 12</div>
-}
-
-function UndergradProgram(){
-  return <div>Coachinng for undergrads</div>
-}
- 
-
-function Landing(){
-  return <div>Allen classes</div>
-}
  
 export default App
