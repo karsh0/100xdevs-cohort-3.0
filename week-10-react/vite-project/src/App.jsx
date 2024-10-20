@@ -5,16 +5,18 @@ import {BrowserRouter, Routes, Route, Link, useNavigate, Outlet} from "react-rou
 
 function App() {
  const [currentCount, setcurrentCount] = useState(1);
-  const [timer, setTimer] = useState(0);
+  // const [timer, setTimer] = useState(0);
+  const timer = useRef();
   function startClock(){
     let value = setInterval(()=>{
       setcurrentCount(currentCount => currentCount+1);
     },1000)
-    setTimer(value);
+    // setTimer(currentCount);
+    timer.current = value;
   }
 
   function stopClock(){
-    clearInterval(timer)
+    clearInterval(timer.current)
   }
   return (
     <>
