@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useRef } from "react" 
+export  function useDebounce(originalFn){
+    const clock = useRef();
 
-export default function useDebounce(Backend){
-    const prevFn = useRef();
+    const fn = () =>{
+        clearTimeout(clock.current);
+        clock.current  = setTimeout(originalFn,200);
+    }   
 
-    const [searchBackend, getsearchBackend] = useState(0);
-
-    useEffect(()=>{
-        clearTimeout(searchBackend);
-        const search = setTimeout(Backend)
-    },[])
+    return fn
 
 }
