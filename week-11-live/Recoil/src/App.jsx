@@ -4,7 +4,7 @@ import './App.css'
 import { useContext } from 'react';
 import { useState } from 'react';
 import { RecoilRoot, atom, useRecoilValue, useSetRecoilState } from 'recoil'
-import { counterAtom } from './store/atoms/counter';
+import { counterAtom, evenSelector } from './store/atoms/counter';
 
 function App() {
 //creating a increase/decrease functionality
@@ -35,7 +35,7 @@ function Increase(){
   const setcount = useSetRecoilState(counterAtom);
 
 const IncreaseFn = () =>{
-  setcount(c => c+1);
+  setcount(c => c+2);
 }
 
   return <div>
@@ -57,12 +57,24 @@ const CurrentCounter = () =>{
   const count = useRecoilValue(counterAtom);
   return <div>{count}</div>
 }
+
+const DisplayValue = () =>{
+  const value = useRecoilValue(evenSelector);
+  if(value){
+    return <p>Even</p>
+  }
+  else{
+    return <p>Odd</p>
+  }
+}
+
 function Counter(){
   return (
     <div>
     <CurrentCounter/>
     <Increase/>
     <Decrease/>
+    <DisplayValue/>
     </div>
   )
 }
