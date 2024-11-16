@@ -1,4 +1,5 @@
 import { useRef, useState } from "react"
+import Button from "./Button"
 
 export const Otp = () => {
     const ref1 = useRef()
@@ -46,7 +47,7 @@ export const Otp = () => {
             }}/>
 </div>
 
-{submit ? <div className="button px-7 py-3 bg-green-400 text-white text-2xl text-semibold text-center rounded-2xl">Submit</div> : <div className="button px-8 py-3 bg-red-400 text-white text-2xl text-semibold text-center rounded-2xl">Submit</div>}
+{submit ? <Button value={"Submit"}/> : <div className="button px-8 py-3 bg-red-400 text-white text-2xl text-semibold text-center rounded-2xl">Submit</div>}
 </div>
 }
 
