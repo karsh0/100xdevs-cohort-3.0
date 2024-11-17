@@ -4,17 +4,17 @@ mongoose.connect('mongodb+srv://admin:sdWrBsXuYHdxK3sb@cluster0.plktz.mongodb.ne
 
 const userSchema = new Schema({
     username: {type:String, unique:true},
-    password: String
+    password: {type:String, required:true}
 })
 
-export const userModel = mongoose.model("user", userSchema)
+export const userModel = mongoose.model("User", userSchema)
 
 const contentSchema = new Schema({
     link: String,
     type: {type: String },    
     title: String,
-    tags: [{type: mongoose.Schema.ObjectId, ref: "tag"}],
-    userId: {type: Schema.ObjectId, ref:"user"}
+    tags: [{type: Schema.ObjectId, ref: "Tag"}],
+    userId: {type: Schema.ObjectId, ref:"User", required: true}
 })
 
-export const contentModel = mongoose.model("content", contentSchema)
+export const contentModel = mongoose.model("Content", contentSchema)
