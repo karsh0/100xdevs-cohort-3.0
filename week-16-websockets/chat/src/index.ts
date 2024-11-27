@@ -4,6 +4,7 @@ const wss = new WebSocketServer({port: 8080});
 
 interface User {
     socket: WebSocket,
+    username: String,
     roomId: String
 }
 
@@ -16,12 +17,12 @@ wss.on("connection", function(socket){
         if(parsedMessage.type === "join"){
             allSockets.push({
                 socket,
+                username: parsedMessage.payload.username,
                 roomId: parsedMessage.payload.roomId
             })
         }
         if(parsedMessage.type === "chat"){
             const user = allSockets.find((u) => u.socket == socket);
-            
             const rooms = allSockets.filter((u) => u.roomId == user?.roomId)
             rooms.map((room)=> room.socket.send(parsedMessage.payload.message))
         }
