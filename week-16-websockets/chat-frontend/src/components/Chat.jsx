@@ -1,14 +1,9 @@
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 
-export const Chat = () =>{
+export const Chat = ({ws}) =>{
 
     const [messages, setMessages] = useState(["hi there", "hello"])
-    const wsRef  = useRef();
-    
-    
-   
-    
-
+  
     return (
     <>
     <div className="h-screen w-full bg-slate-700 felx flex-col justify-between p-10">
@@ -24,7 +19,7 @@ export const Chat = () =>{
       <button className="px-5 h-full text-2xl text-white text-center bg-green-600" onClick={
         ()=>{
         const message = document.getElementById("messageData")?.value;
-          wsRef.current.send(JSON.stringify({
+          ws.send(JSON.stringify({
             type:"chat",
             payload:{
             message

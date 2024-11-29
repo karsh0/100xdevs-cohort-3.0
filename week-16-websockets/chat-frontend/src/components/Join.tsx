@@ -1,9 +1,11 @@
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Join = () => {
+  const wsRef = useRef<WebSocket | null>(null); 
   const userRef = useRef<HTMLInputElement>(null);
   const roomRef = useRef<HTMLInputElement>(null);
-  const wsRef = useRef<WebSocket | null>(null); 
+  const navigate = useNavigate();
 
   const handleJoin = () => {
     const username = userRef.current?.value;
@@ -30,9 +32,12 @@ export const Join = () => {
       );
     };
 
+    navigate('/chat')
+
     wsRef.current.onerror = (error) => {
       console.error("WebSocket error:", error);
     };
+
   };
 
   return (
