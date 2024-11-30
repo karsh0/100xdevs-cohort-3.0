@@ -1,8 +1,14 @@
 import { useState } from "react"
-
-export const Chat = ({ws}) =>{
+// import { ws } from "./Join"
+import { useRecoilValue } from "recoil";
+import { wsAtom } from "../App"
+export const Chat = () =>{
 
     const [messages, setMessages] = useState(["hi there", "hello"])
+      const ws = useRecoilValue(wsAtom)
+    ws.onmessage = (e) =>{
+      setMessages((messages) => [...messages, e.data])
+    }
   
     return (
     <>

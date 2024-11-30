@@ -1,5 +1,8 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+
+export let ws:WebSocket | null = null;
 
 export const Join = () => {
   const wsRef = useRef<WebSocket | null>(null); 
@@ -18,6 +21,7 @@ export const Join = () => {
 
     if (!wsRef.current) {
       wsRef.current = new WebSocket("ws://localhost:8080");
+      ws = wsRef.current;
     }
 
     wsRef.current.onopen = () => {

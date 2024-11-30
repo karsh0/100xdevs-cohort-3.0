@@ -1,31 +1,25 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Join } from "./components/Join";
 import { Chat } from "./components/Chat";
-import { useEffect, useRef } from "react";
+import { atom, RecoilRoot } from "recoil";
+
+
+export const wsAtom = atom({
+  key:"socket",
+  default:"ws://localhost:8080"
+})
 
 function App() {
 
-  const ws = useRef<WebSocket | null>(null);
-
-  useEffect(() => {
-    ws.current = new WebSocket('ws://localhost:8080');
-
-    ws.current.onopen = () => {
-      console.log('WebSocket connection established');
-    };
-
-    return () => {
-      ws.current?.close();
-    };
-  }, []);
-
   return (
+    <RecoilRoot>
     <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Join ws={ws.current}/>}/>
-      <Route path="/chat" element={<Chat ws={ws.current}/>}/>
+      <Route path="/" element={<Join/>}/>
+      <Route path="/chat" element={<Chat/>}/>
     </Routes>
     </BrowserRouter>
+    </RecoilRoot>
   )
 }
 
