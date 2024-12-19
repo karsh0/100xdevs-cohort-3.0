@@ -21,5 +21,6 @@ export default function User(){
 
     return <div>
         {data.name}
+        {data.email}
     </div>
 }
